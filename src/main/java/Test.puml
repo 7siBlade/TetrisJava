@@ -1,0 +1,169 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+'abstract class AbstractList
+'abstract AbstractCollection
+'interface List
+'interface Collection
+enum Figure
+class Coord
+class Config
+class Box extends JPanel
+class Window extends JFrame implements Runnable
+class FlyFigure
+class Tetris
+interface Mapble
+class MenuWindow extends JFrame
+
+enum Figure{
+    I1(0,1,1,1,2,1,3,1),
+    I2(1,0,1,1,1,2,1,3),
+    J1(1,0,1,1,0,2,1,2),
+    J2(0,0,0,1,1,1,2,1),
+    J3(1,0,2,0,1,1,1,2),
+    J4(0,1,1,1,2,1,2,2),
+    L1(1,0,1,1,1,2,2,2),
+    L2(0,1,1,1,2,1,0,2),
+    L3(0,0,1,0,1,1,1,2),
+    L4(2,0,0,1,1,1,2,1),
+    O1(0,0,1,0,0,1,1,1),
+    S1(1,1,2,1,0,2,1,2),
+    S2(0,0,0,1,1,1,1,2),
+    T1(0,1,1,1,2,1,1,2),
+    T2(1,0,0,1,1,1,1,2),
+    T3(1,0,0,1,1,1,2,1),
+    T4(1,0,1,1,2,1,1,2),
+    Z1(0,1,1,1,1,2,2,2),
+    Z2(2,0,1,1,2,1,1,2);
+
+    - final dot: List<Coord>
+    + final top: Coord
+    + final bot: Coord
+    - Coord getInitTop()
+    - Coord getInitBot()
+    + Figure turnRight()
+    + Figure turnLeft()
+    + static Figure getRandom()
+}
+
+class Coord{
+    + final x: int
+    + final y: int
+
+    + Coord(int x, int y)
+    + Coord plus((int sx, int sy)
+}
+
+class Config {
+    + static final WIDTH: int
+    + static final HEIGHT: int
+    + static final SIZE: int
+    + static final COLORS: Color[]
+}
+
+class Box{
+ - color: int
+
+ + int getColor()
+ + Box(int x, int y)
+ + void setColor(int color)
+}
+
+class Window{
+    +Counter: int
+    +JLabel label
+    +JButton gameOver
+    +MenuWindow menuWindow
+    +TimeAdapter timeAdapter
+    +Timer timer
+    - boxes: Box[][]
+    - fly: FlyFigure
+
+    + Window()
+    - void initForm()
+    - void initComponent()
+    + void ButtonGameOverAction()
+    + void addFigure()
+    - void initBoxes()
+    + void run()
+    - void showFigure()
+    - void hideFigure()
+    - void showFigure(int color)
+    - void setBoxColor(int x, int y, int color)
+    + int getBoxColor(int x,int y)
+    - void moveFly(int sx, int sy)
+    - void turnFly(int direction)
+    - void stripLiners()
+    - void dropLine(int y )
+    - boolean isFullLine(int y)
+}
+
+interface Mapble{
+    int getBoxColor(int x, int y)
+}
+
+class FlyFigure{
+    - Figure figure;
+    - Coord coord;
+    - boolean landed;
+    - int ticks;
+    + Mapble map;
+
+    + FlyFigure(Mapble map)
+    + Figure getFigure()
+    + Coord getCoord()
+    + boolean isLanded()
+    + boolean canPlaceFigure()
+    - boolean canMoveFigure(Figure figure, int sx, int sy)
+    + void moveFigure(int sx, int sy)
+    + void turnFigure(int direction)
+}
+
+class Tetris{
+    + static void main()
+    + MenuWindow menuWindow
+}
+
+class MenuWindow{
+    + JButton button1
+    + JPanel top
+
+    + MenuWindow()
+    + void initWindow()
+    + void initComponent()
+    - void ButtonAction()
+}
+
+Coord <.. FlyFigure
+Coord --> Box
+Box o--> Window
+Box <-- Config
+FlyFigure *--> Window
+Mapble <|..> Window
+'Window --> FlyFigure
+Config --> Window
+Tetris --> MenuWindow
+MenuWindow --> Window
+Figure <.. FlyFigure
+Figure ..> Coord
+Mapble <.. FlyFigure
+
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+'
+'Collection <|- List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+'
+'class ArrayList {
+'Object[] elementData
+'size()
+'}
+'
+'enum TimeUnit {
+'DAYS
+'HOURS
+'MINUTES
+'}
+
+@enduml
